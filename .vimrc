@@ -1,5 +1,35 @@
+" プラグインセットアップ
+if &compatible
+  set nocompatible
+endif
+" Add the dein installation directory into runtimepath
+set runtimepath+=~/.local/share/dein/repos/github.com/Shougo/dein.vim
+
+if dein#load_state('~/.local/share/dein')
+  call dein#begin('~/.local/share/dein')
+
+  call dein#add('~/.local/share/dein/repos/github.com/Shougo/dein.vim')
+  call dein#add('Shougo/deoplete.nvim')
+  call dein#add('tomasr/molokai')
+  call dein#add('fatih/vim-go')
+  call dein#add('zchee/deoplete-go')
+  call dein#add('scrooloose/nerdtree')
+
+
+  if !has('nvim')
+    call dein#add('roxma/nvim-yarp')
+    call dein#add('roxma/vim-hug-neovim-rpc')
+  endif
+
+  call dein#end()
+  call dein#save_state()
+endif
+
+filetype plugin indent on
+
+
 " 基本
-colorscheme pablo
+colorscheme molokai " カラースキーム
 syntax on
 set number " 行番号を表示
 set noswapfile " スワップファイルを作らない(.swp)
@@ -37,7 +67,12 @@ nnoremap <C-e> :e!<CR>
 " 補完
 set wildmenu " コマンドモードの補完
 set history=5000
-
+" 片方の括弧でもう片方の括弧も補完
+inoremap { {}<LEFT>
+inoremap ( ()<LEFT>
+inoremap [ []<LEFT>
+inoremap ' ''<LEFT>
+inoremap " ""<LEFT>
 
 " カーソル
 " 行が折り返し表示されていた場合、行単位ではなく表示行単位でカーソルを移動する
@@ -70,33 +105,3 @@ endif
 set nocompatible " vi互換モードで方向キーを押してアルファベットが入力されるのを防ぐ
 set backspace=indent,eol,start " 改行後、バックスペースが効かない問題を解決
 let g:go_fmt_command = "goimports" " goファイルの自動保存時にgoimportsコマンドを実行
-
-
-" =========================================================
-" プラグイン, dein関連
-if &compatible
-  set nocompatible
-endif
-" Add the dein installation directory into runtimepath
-set runtimepath+=~/.local/share/dein/repos/github.com/Shougo/dein.vim
-
-if dein#load_state('~/.local/share/dein')
-  call dein#begin('~/.local/share/dein')
-
-  call dein#add('~/.local/share/dein/repos/github.com/Shougo/dein.vim')
-  call dein#add('Shougo/deoplete.nvim')
-  call dein#add('fatih/vim-go')
-  call dein#add('zchee/deoplete-go')
-
-  if !has('nvim')
-    call dein#add('roxma/nvim-yarp')
-    call dein#add('roxma/vim-hug-neovim-rpc')
-  endif
-
-  call dein#end()
-  call dein#save_state()
-endif
-
-filetype plugin indent on
-syntax enable
-" =========================================================
