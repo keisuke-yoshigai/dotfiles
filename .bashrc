@@ -1,7 +1,7 @@
 # general alias
-alias l='clear && ls -hlAG'
-alias ll='clear && ls -hlAG'
-alias lll='clear && ls -hlAG'
+alias l='ls -hlAG'
+alias ll='ls -hlAG'
+alias lll='ls -hlAG'
 alias grep='grep --color=auto'
 alias vi='vim'
 alias less='less -NM'

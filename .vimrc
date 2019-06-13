@@ -73,6 +73,7 @@ inoremap ( ()<LEFT>
 inoremap [ []<LEFT>
 inoremap ' ''<LEFT>
 inoremap " ""<LEFT>
+inoremap ` ``<LEFT>
 
 " カーソル
 " 行が折り返し表示されていた場合、行単位ではなく表示行単位でカーソルを移動する
