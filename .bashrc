@@ -20,4 +20,3 @@ alias gs='git status'
 export GOPATH=$HOME/dev
 export GOBIN=$HOME/dev/bin
 export PATH=$HOME/anaconda/bin:$PATH:$GOPATH/bin
-export PYTHONPATH=$HOME/anaconda/bin/python3.6/site-packages/
