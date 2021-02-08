@@ -3,18 +3,20 @@ if &compatible
   set nocompatible
 endif
 " Add the dein installation directory into runtimepath
-set runtimepath+=~/.local/share/dein/repos/github.com/Shougo/dein.vim
+set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
 
-if dein#load_state('~/.local/share/dein')
-  call dein#begin('~/.local/share/dein')
+if dein#load_state('~/.cache/dein')
+  call dein#begin('~/.cache/dein')
 
-  call dein#add('~/.local/share/dein/repos/github.com/Shougo/dein.vim')
+  call dein#add('~/.cache/dein/repos/github.com/Shougo/dein.vim')
   call dein#add('Shougo/deoplete.nvim')
   call dein#add('tomasr/molokai')
   call dein#add('fatih/vim-go')
   call dein#add('zchee/deoplete-go')
   call dein#add('scrooloose/nerdtree')
-
+  call dein#add('davidhalter/jedi-vim')
+  call dein#add('tell-k/vim-autopep8')
+  call dein#add('bronson/vim-trailing-whitespace')
 
   if !has('nvim')
     call dein#add('roxma/nvim-yarp')
@@ -27,6 +29,16 @@ endif
 
 filetype plugin indent on
 
+" Vim起動完了時にインストール
+augroup PluginInstall
+  autocmd!
+  autocmd VimEnter * if dein#check_install() | call dein#install() | endif
+augroup END
+
+"不足プラグインの自動インストール
+if dein#check_install()
+  call dein#install()
+endif
 
 " 基本
 colorscheme molokai " カラースキーム
@@ -57,16 +69,16 @@ set smartindent " C言語風のインデントを自動で行う
 
 " キーマッピング
 nnoremap <Esc><Esc> :set hlsearch!<CR><Esc>
-" 折り返し時に表示行単位での移動できるようにする
+"
+" カーソル
 nnoremap j gj
 nnoremap k gk
-
-nnoremap <C-e> :e!<CR>
 
 
 " 補完
 set wildmenu " コマンドモードの補完
 set history=5000
+
 " 片方の括弧でもう片方の括弧も補完
 inoremap { {}<LEFT>
 inoremap ( ()<LEFT>
@@ -75,19 +87,11 @@ inoremap ' ''<LEFT>
 inoremap " ""<LEFT>
 inoremap ` ``<LEFT>
 
-" カーソル
-" 行が折り返し表示されていた場合、行単位ではなく表示行単位でカーソルを移動する
-nnoremap j gj
-nnoremap k gk
-nnoremap <down> gj
-nnoremap <up> gk
-
-set whichwrap=b,s,h,l,<,>,[,],~ " カーソルの左右移動で行末から次の行の行頭への移動が可能になる
-
+" set whichwrap=b,s,h,l,<,>,[,],~ " カーソルの左右移動で行末から次の行の行頭への移動が可能になる
 
 " クリップボード
 set clipboard=unnamed,autoselect " クリップボードとの連携
-" クリップボードからのペーストでズレが起きないようにする設定。詳細はよくわからん。
+" クリップボードからのペーストでズレが起きないようにする設定
 if &term =~ "xterm"
     let &t_SI .= "\e[?2004h"
     let &t_EI .= "\e[?2004l"
@@ -105,4 +109,14 @@ endif
 " その他
 set nocompatible " vi互換モードで方向キーを押してアルファベットが入力されるのを防ぐ
 set backspace=indent,eol,start " 改行後、バックスペースが効かない問題を解決
+
+" golang
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_structs = 1
+let g:neocomplete#sources#omni#input_patterns = '\h\w\.\w*'
 let g:go_fmt_command = "goimports" " goファイルの自動保存時にgoimportsコマンドを実行
+let g:go_debug_windows = {
+            \ 'vars':       'rightbelow 60vnew',
+            \ 'stack':      'rightbelow 10new',
+            \ }
